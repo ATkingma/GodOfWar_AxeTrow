@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public class TwoDAnimatorStateController : MonoBehaviour
 {
     //public
@@ -21,6 +19,7 @@ public class TwoDAnimatorStateController : MonoBehaviour
         bool leftPressed = im.leftPressed;
         bool rightPressed = im.rightPressed;
         bool runPressed = im.runPressed;
+
         //set current
         float currentMaxVelocity = runPressed ? maxRunVelocity : maxWalkVelocity;
         //velocity on input
@@ -78,6 +77,7 @@ public class TwoDAnimatorStateController : MonoBehaviour
             {
             velocitiyZ = currentMaxVelocity;
             }
+
         //animator gets velocity
         anim.SetFloat("Velocity z", velocitiyZ);
         anim.SetFloat("Velocity x", velocitiyX);

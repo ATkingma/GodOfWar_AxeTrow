@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
+﻿using UnityEngine;
 public class AxeController : MonoBehaviour
 {
     //public
@@ -10,15 +7,15 @@ public class AxeController : MonoBehaviour
     public float rotationValue;
     public GameObject player;
     void Update()
-    {
+    {    
         if (activated)
-        {
+        {            
             float distance = Vector3.Distance(transform.position, player.transform.position);
-            if (distance <= 3.5f)
+            if (distance <= 3.5f)//roate the axe to hand rotation so it wil be nicer when it snaps in the hand
             {
-                transform.rotation = Quaternion.Euler(90, 0, 0);
+                Quaternion.Slerp(transform.rotation, Quaternion.Euler(90, 0, 0), 1);
             }
-            else if (distance > 3.5f)
+            else if (distance > 3.5f)//roatate the axe till its in range
             {
                 rotationValue += rotationSpeed * Time.deltaTime;
                 transform.rotation = Quaternion.Euler(4, rotationValue, rotationValue);
@@ -27,7 +24,7 @@ public class AxeController : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer ==0| collision.gameObject.layer == 9)
+        if (collision.gameObject.layer ==0| collision.gameObject.layer == 9)//check for a layer it can collide with
         {
             GetComponent<Rigidbody>().Sleep();
             GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;

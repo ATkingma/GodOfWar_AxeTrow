@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     ///public
@@ -19,8 +17,10 @@ public class PlayerMovement : MonoBehaviour
     void InPut()
     {
         moveDir = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+        //get cam pos
         transform.forward = new Vector3(cam.transform.forward.x, transform.forward.y, cam.transform.forward.z);
         moveDir = transform.TransformDirection(moveDir);
+        //more input
         if (!im.runPressed)
         {
             controller.Move(moveDir.normalized * speed * Time.deltaTime);

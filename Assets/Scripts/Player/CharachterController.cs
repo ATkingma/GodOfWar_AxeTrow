@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using DG.Tweening;
-using Cinemachine;
 public class CharachterController : MonoBehaviour
 {
+    //public
     public InputManagergodofwar im;
     public PlayerMovement pm;
     public Animator anim;
@@ -13,11 +11,12 @@ public class CharachterController : MonoBehaviour
     public Vector3 des;
     public Transform curvePos, handPos, axeHandPos;
     public float throwPower;
+    //private
     private Vector3 pullPos;
     private bool equip, visable, moreWeight, pulling, hasWeapon, attackCoolDown, dubbelclick, clickResetOn, isTrowing;
     private float returnTime, speed, runningSpeed;
     private int clickCount;
-    private void Start()
+    private void Start()//gets here everythink and sets everythink on false or true 
     {
         axe.GetComponent<ParticleSystem>().Stop();
         gotchaEffect.GetComponent<ParticleSystem>().Stop();
@@ -34,7 +33,7 @@ public class CharachterController : MonoBehaviour
         InputUpdate();
         AxeUpdate();
     }
-    public void InputUpdate()
+    public void InputUpdate()///lots of input
     {
         if (im.leftClick)
         {
@@ -95,7 +94,7 @@ public class CharachterController : MonoBehaviour
         {
             if (equip)
             {
-                TrowingAxe();
+                ChargingAxe();
                 if (!moreWeight)
                 {
                     anim.SetLayerWeight(1, 0.75f);
@@ -107,7 +106,10 @@ public class CharachterController : MonoBehaviour
             anim.SetBool("IsCharging", false);
         }
     }
-    public void AxeUpdate()
+
+
+    //axe functions
+    public void AxeUpdate()//is for pulling
     {
         if (pulling)
         {
@@ -126,7 +128,7 @@ public class CharachterController : MonoBehaviour
             }
         }
     }
-    public void Gotcha()
+    public void Gotcha()//caught function
     {
         gotchaEffect.GetComponent<ParticleSystem>().Play();
         returnTime = 0;
@@ -137,17 +139,17 @@ public class CharachterController : MonoBehaviour
         axe.transform.rotation = axeHandPos.rotation;
         pulling = false;
     }
-    public void TurnOffParticle()
+    public void TurnOffParticle()//cathcing effect
     {
         gotchaEffect.GetComponent<ParticleSystem>().Stop();
     }
-    public void TurnOffTrowingBool()
+    public void TurnOffTrowingBool()//reset axe animation bools
     {
         anim.SetBool("IsTrowing", false);
         anim.SetBool("IsCharging", false);
         anim.SetBool("IsRetrieving", false);
     }
-    public void TrowAxe()
+    public void TrowAxe()//axe trow function = called with a animation event
     {
         moreWeight = false;
         if (visable&& equip)
@@ -163,7 +165,7 @@ public class CharachterController : MonoBehaviour
             axeRb.AddForce(cam.transform.forward * throwPower + transform.up * 4, ForceMode.Impulse);
         }
     }
-    public void Pull()
+    public void Pull()//pulling function more in AxeUpdate
     {
         pullPos = axe.transform.position;
         axeRb.Sleep();
@@ -175,7 +177,7 @@ public class CharachterController : MonoBehaviour
         trailEffect.SetActive(true);
         pulling = true;      
     }
-    public void TrowingAxe()
+    public void ChargingAxe()//charge animation
     {
         isTrowing = true;
         anim.SetBool("IsCharging", true);
@@ -186,6 +188,7 @@ public class CharachterController : MonoBehaviour
             RelasingAxe();
         }
     }
+    //releasing~retrieving
     public void RelasingAxe()
     {
         anim.SetBool("IsTrowing", true);
@@ -194,6 +197,9 @@ public class CharachterController : MonoBehaviour
     {
         anim.SetBool("IsRetrieving", true);
     }
+
+
+    //equipmentfunctions
     public void Equip()
     {
         if (hasWeapon && !isTrowing)
@@ -226,7 +232,9 @@ public class CharachterController : MonoBehaviour
         anim.SetBool("isUniQuiping", false);
         visable = false;
     }
-    public void AttackSpin()
+
+//attack functions
+    public void AttackSpin()//dubbelclick attack (spinning attack)
     {
         AnimReset();
         attackCoolDown = true;
@@ -234,7 +242,7 @@ public class CharachterController : MonoBehaviour
         Invoke("AnimReset", 2);
         Invoke("AttackCooldown", 2);
     }
-    public void Kick()
+    public void Kick()//kick
     {
         attackCoolDown = true;
         pm.speed=0;
@@ -244,38 +252,44 @@ public class CharachterController : MonoBehaviour
         Invoke("Resset", 1);
         Invoke("AttackCooldown", 1);
     }
-    public void NormalAttack()
+    public void NormalAttack()//normal attack 
     {
         attackCoolDown = true;
         anim.SetBool("IsAttacking", true);
         Invoke("AnimReset", 2.2f);
         Invoke("AttackCooldown", 2.2f);
     }
-    public void Taunt()
+
+    public void Taunt()//taunt function
     {
      anim.SetBool("IsTaunting", true);
      Invoke("AnimReset", 2.8f);
     }
-    public void AnimReset()
+
+    //reset functions
+    public void AnimReset()//reset animations
     {
         anim.SetBool("IsTaunting", false);
         anim.SetBool("IsKicking", false);
         anim.SetBool("Is360", false);
         anim.SetBool("IsAttacking", false);
     }
-    public void Resset()
+    public void Resset()//reset for speed afther attack
     {
         pm.speed = speed;
         pm.runningSpeed = runningSpeed;
     }
-    public void AttackCooldown()
+    public void AttackCooldown()//cooldown for attack
     {
         attackCoolDown = false;
     }
-    public void ResetClickCount()
+    public void ResetClickCount()//a reset for dubbelclick
     {
         clickCount = 0;
     }
+
+
+    //curve
     public Vector3 GetQuadraticCurvePoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
     {
         float u = 1 - t;

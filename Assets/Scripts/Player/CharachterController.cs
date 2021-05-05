@@ -6,7 +6,7 @@ public class CharachterController : MonoBehaviour
     public InputManagergodofwar im;
     public PlayerMovement pm;
     public Animator anim;
-    public GameObject axe, unEquipted, cam,gotchaEffect,trailEffect;
+    public GameObject axe, unEquipted, cam,gotchaEffect,trailEffect,gotchaPos;
     public Rigidbody axeRb;
     public Vector3 des;
     public Transform curvePos, handPos, axeHandPos;
@@ -27,6 +27,7 @@ public class CharachterController : MonoBehaviour
         speed = pm.speed;
         runningSpeed = pm.runningSpeed;
         trailEffect.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
     }
     private void Update()
     {
@@ -124,13 +125,12 @@ public class CharachterController : MonoBehaviour
                 hasWeapon = true;
                 pulling = false;
                 Gotcha();
-                Invoke("TurnOffParticle",0.5f);
             }
         }
     }
     public void Gotcha()//caught function
     {
-        gotchaEffect.GetComponent<ParticleSystem>().Play();
+        Instantiate(gotchaEffect,gotchaPos.transform);
         returnTime = 0;
         axe.GetComponent<AxeController>().activated = false;
         trailEffect.SetActive(false);
@@ -138,10 +138,6 @@ public class CharachterController : MonoBehaviour
         axe.transform.position = axeHandPos.position;
         axe.transform.rotation = axeHandPos.rotation;
         pulling = false;
-    }
-    public void TurnOffParticle()//cathcing effect
-    {
-        gotchaEffect.GetComponent<ParticleSystem>().Stop();
     }
     public void TurnOffTrowingBool()//reset axe animation bools
     {
@@ -224,6 +220,7 @@ public class CharachterController : MonoBehaviour
         axe.SetActive(true);
         anim.SetBool("IsEquipt", false);
         visable = true;
+        axe.GetComponent<ParticleSystem>().Stop();
     }
     public void EquipmentOff()
     {
@@ -232,7 +229,6 @@ public class CharachterController : MonoBehaviour
         anim.SetBool("isUniQuiping", false);
         visable = false;
     }
-
 //attack functions
     public void AttackSpin()//dubbelclick attack (spinning attack)
     {

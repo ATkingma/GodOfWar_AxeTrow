@@ -892,7 +892,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 537984110}
-  m_LocalRotation: {x: 0.22022888, y: -0.41907, z: 0.10553668, w: 0.8744951}
+  m_LocalRotation: {x: 0.22022173, y: -0.4191292, z: 0.10555157, w: 0.87446666}
   m_LocalPosition: {x: 152.21136, y: 6.214759, z: 148.54085}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2418,7 +2418,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281615000}
-  m_LocalRotation: {x: 0.013420925, y: 0.06702772, z: -0.03721773, w: 0.9969664}
+  m_LocalRotation: {x: 0.013420865, y: 0.06708112, z: -0.03724736, w: 0.9969617}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -2505,6 +2505,7 @@ MonoBehaviour:
   cam: {fileID: 537984110}
   gotchaEffect: {fileID: 1442032864}
   trailEffect: {fileID: 794769634}
+  gotchaPos: {fileID: 1442032864}
   axeRb: {fileID: 1680131107}
   des: {x: 0, y: 0, z: 0}
   curvePos: {fileID: 413227524}
@@ -12905,7 +12906,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960570558}
-  m_LocalRotation: {x: -0.022861598, y: -0.024167385, z: 0.012292622, w: 0.9993709}
+  m_LocalRotation: {x: -0.02286166, y: -0.02404949, z: 0.012232654, w: 0.99937445}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -13155,7 +13156,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146514822}
-  m_LocalRotation: {x: -0.004727781, y: -0.023940384, z: 0.012729049, w: 0.9996212}
+  m_LocalRotation: {x: -0.0047278106, y: -0.023823619, z: 0.012666941, w: 0.9996248}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

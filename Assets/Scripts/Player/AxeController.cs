@@ -21,15 +21,21 @@ public class AxeController : MonoBehaviour
                 transform.rotation = Quaternion.Euler(4, rotationValue, rotationValue);
             }
         }
+        else
+		{
+            GetComponent<Rigidbody>().Sleep();
+            GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+            GetComponent<Rigidbody>().isKinematic = true;
+        }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.layer ==0| collision.gameObject.layer == 9)//check for a layer it can collide with
-        {
+		if (collision.transform.tag != "Player")
+        { 
             GetComponent<Rigidbody>().Sleep();
             GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
             GetComponent<Rigidbody>().isKinematic = true;
             activated = false;
-        }
+		}
     }
 }

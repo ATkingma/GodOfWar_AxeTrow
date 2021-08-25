@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using DG.Tweening;
+using System.Collections;
+using Cinemachine;
+
 public class CharachterController : MonoBehaviour
 {
     //public
     public InputManagergodofwar im;
     public PlayerMovement pm;
+    public CinemachineImpulseSource inpulseSource;
     public Animator anim;
     public GameObject axe, unEquipted, cam,gotchaEffect,trailEffect,gotchaPos;
     public Rigidbody axeRb;
@@ -14,7 +18,7 @@ public class CharachterController : MonoBehaviour
     //private
     private Vector3 pullPos;
     private bool equip, visable, moreWeight, pulling, hasWeapon, attackCoolDown, dubbelclick, clickResetOn, isTrowing;
-    private float returnTime, speed, runningSpeed;
+    private float returnTime, speed, runningSpeed, gotchaCooldown_part=1f;
     private int clickCount;
     private void Start()//gets here everythink and sets everythink on false or true 
     {
@@ -124,13 +128,14 @@ public class CharachterController : MonoBehaviour
                 TurnOffTrowingBool();
                 hasWeapon = true;
                 pulling = false;
-                Gotcha();
+                StartCoroutine("Gotcha");
             }
         }
     }
-    public void Gotcha()//caught function
+    IEnumerator Gotcha()//caught function
     {
-        Instantiate(gotchaEffect,gotchaPos.transform);
+        anim.SetBool("isCatching", true);
+        Instantiate(gotchaEffect, gotchaPos.transform.position, Quaternion.identity);
         returnTime = 0;
         axe.GetComponent<AxeController>().activated = false;
         trailEffect.SetActive(false);
@@ -138,17 +143,25 @@ public class CharachterController : MonoBehaviour
         axe.transform.position = axeHandPos.position;
         axe.transform.rotation = axeHandPos.rotation;
         pulling = false;
+
+        yield return new WaitForSeconds(0.1f);
+        anim.SetBool("isCatching", false);
+        inpulseSource.GenerateImpulse(Vector3.right);
+        yield return new WaitForSeconds(gotchaCooldown_part);
+        gotchaEffect.GetComponent<ParticleSystem>().IsAlive(false);
+        gotchaEffect.GetComponent<ParticleSystem>().Stop();
     }
     public void TurnOffTrowingBool()//reset axe animation bools
     {
         anim.SetBool("IsTrowing", false);
         anim.SetBool("IsCharging", false);
         anim.SetBool("IsRetrieving", false);
+        anim.SetBool("isCatching", false);
     }
     public void TrowAxe()//axe trow function = called with a animation event
     {
         moreWeight = false;
-        if (visable&& equip)
+        if (visable && equip)
         {
             hasWeapon = false;
             axe.GetComponent<AxeController>().activated = true;
@@ -193,7 +206,6 @@ public class CharachterController : MonoBehaviour
     {
         anim.SetBool("IsRetrieving", true);
     }
-
 
     //equipmentfunctions
     public void Equip()

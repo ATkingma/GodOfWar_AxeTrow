@@ -15,10 +15,11 @@ public class CharachterController : MonoBehaviour
     public Vector3 des;
     public Transform curvePos, handPos, axeHandPos;
     public float throwPower;
+    public float gotchaCooldown_part = 1f;
     //private
     private Vector3 pullPos;
     private bool equip, visable, moreWeight, pulling, hasWeapon, attackCoolDown, dubbelclick, clickResetOn, isTrowing;
-    private float returnTime, speed, runningSpeed, gotchaCooldown_part=1f;
+    private float returnTime, speed, runningSpeed;
     private int clickCount;
     private void Start()//gets here everythink and sets everythink on false or true 
     {
@@ -135,7 +136,7 @@ public class CharachterController : MonoBehaviour
     IEnumerator Gotcha()//caught function
     {
         anim.SetBool("isCatching", true);
-        Instantiate(gotchaEffect, gotchaPos.transform.position, Quaternion.identity);
+        Instantiate(gotchaEffect, gotchaPos.transform.position, Quaternion.identity,axe.transform);
         returnTime = 0;
         axe.GetComponent<AxeController>().activated = false;
         trailEffect.SetActive(false);
@@ -144,9 +145,9 @@ public class CharachterController : MonoBehaviour
         axe.transform.rotation = axeHandPos.rotation;
         pulling = false;
 
+        inpulseSource.GenerateImpulse(Vector3.right);
         yield return new WaitForSeconds(0.1f);
         anim.SetBool("isCatching", false);
-        inpulseSource.GenerateImpulse(Vector3.right);
         yield return new WaitForSeconds(gotchaCooldown_part);
         gotchaEffect.GetComponent<ParticleSystem>().IsAlive(false);
         gotchaEffect.GetComponent<ParticleSystem>().Stop();

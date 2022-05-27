@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - Axe
+  - Walkable
+  - invisBox
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - 
   - Player
   - Enemy
-  - 
+  - InvisWall
   - 
   - 
   - 

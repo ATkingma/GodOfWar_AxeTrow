@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public CharacterController controller;
 	public InputManagergodofwar im;
 
-    public Animator anim;
+    public PlayerAnimationController animationController;
     public float acceleration = 2f;
     public float decelaration = 2f;
     public float maxWalkVelocity = 0.5f;
@@ -27,10 +27,10 @@ public class PlayerMovement : MonoBehaviour
     private void Movement()
     {
         moveDir = im.moveDir;
-        //get cam pos
+
         transform.forward = new Vector3(cam.transform.forward.x, transform.forward.y, cam.transform.forward.z);
         moveDir = transform.TransformDirection(moveDir);
-        //more input
+
         if (!im.runPressed)
         {
             controller.Move(moveDir.normalized * speed * Time.deltaTime);
@@ -49,9 +49,9 @@ public class PlayerMovement : MonoBehaviour
     }
     private void UpdateAnimations()
 	{
-        //set current
+
         float currentMaxVelocity = im.runPressed ? maxRunVelocity : maxWalkVelocity;
-        //velocity on input
+
         if (im.forwardPressed && velocitiyZ < currentMaxVelocity)
         {
             velocitiyZ += Time.deltaTime * acceleration;
@@ -68,28 +68,32 @@ public class PlayerMovement : MonoBehaviour
         {
             velocitiyX += Time.deltaTime * acceleration;
         }
-        //decalertation
-        if (!im.forwardPressed && velocitiyZ > 0.0f)//demin
+
+        if (!im.forwardPressed && velocitiyZ > 0.0f)
         {
             velocitiyZ -= Time.deltaTime * decelaration;
         }
-        if (!im.backwardsPressed && velocitiyZ < 0.0f)//demin
+
+        if (!im.backwardsPressed && velocitiyZ < 0.0f)
         {
             velocitiyZ += Time.deltaTime * decelaration;
         }
-        if (!im.leftPressed && velocitiyX < 0.0f)//demin
+
+        if (!im.leftPressed && velocitiyX < 0.0f)
         {
             velocitiyX += Time.deltaTime * decelaration;
         }
-        if (!im.rightPressed && velocitiyX > 0.0f)//deplus
+
+        if (!im.rightPressed && velocitiyX > 0.0f)
         {
             velocitiyX -= Time.deltaTime * decelaration;
         }
+
         if (!im.leftPressed && !im.rightPressed && velocitiyX != 0.0f && (velocitiyX > -0.5f && velocitiyX < 0.5f))
         {
             velocitiyX = 0;
         }
-        //lock
+
         if (im.forwardPressed && im.runPressed && velocitiyZ > currentMaxVelocity)
         {
             velocitiyZ = currentMaxVelocity;
@@ -107,8 +111,6 @@ public class PlayerMovement : MonoBehaviour
             velocitiyZ = currentMaxVelocity;
         }
 
-        //animator gets velocity
-        anim.SetFloat("Velocity z", velocitiyZ);
-        anim.SetFloat("Velocity x", velocitiyX);
+        animationController.SetVelocity(velocitiyZ, velocitiyX);
     }
 }
